@@ -16,6 +16,22 @@ class Stack: # Clase Pila
     #funcion para devolver la longitud de la pila
     def length(self):
         return len(self.stack)
+    def existe(self, identificador):
+        pila_aux = Stack()
+        encontrado = False
+
+        while not self.is_empty():
+            elemento = self.pop()
+
+            if elemento == identificador:
+                encontrado = True
+
+            pila_aux.push(elemento)
+
+        while not pila_aux.is_empty():
+            self.push(pila_aux.pop())
+
+        return encontrado
     #funcion para printear
     def __str__(self):
         return str(self.stack[::-1])
@@ -35,6 +51,22 @@ class Queue:
     #metodo para devolver el tamano de la cola
     def length(self):
         return len(self.queue)
+    def existe(self, identificador):
+        cola_aux = Queue()
+        encontrado = False
+
+        while not self.is_empty():
+            elemento = self.dequeue()
+
+            if elemento == identificador:
+                encontrado = True
+
+            cola_aux.enqueue(elemento)
+
+        while not cola_aux.is_empty():
+            self.enqueue(cola_aux.dequeue())
+
+        return encontrado
     #funcion para printear cola
     def __str__(self):
         return str(self.queue)
@@ -87,7 +119,7 @@ def menu():
                     if len(identificador_alm) > 20:
                         print("[!] Error: El identificador no puede superar los 20 caracteres.")
 
-                    elif identificador_alm in almacen.stack:
+                    elif almacen.existe(identificador_alm):
                         print("[!] Error: Ya existe una caja con ese identificador.")
 
                     else:
@@ -105,12 +137,12 @@ def menu():
                     if len(identificador_cam) > 20:
                         print("[!] Error: El identificador no puede superar los 20 caracteres.")
 
-                elif identificador_cam in bahia_camiones.queue:
-                    print("[!] Error: Ya existe un camion con ese identificador.")
+                    elif bahia_camiones.existe(identificador_cam):
+                        print("[!] Error: Ya existe un camion con ese identificador.")
 
-                else:
-                    bahia_camiones.enqueue(identificador_cam)
-                    print(f"{Color.verde}-> Camion [{identificador_cam}] formado en la fila. {Color.fin}\n")
+                    else:
+                        bahia_camiones.enqueue(identificador_cam)
+                        print(f"{Color.verde}-> Camion [{identificador_cam}] formado en la fila. {Color.fin}\n")
                 case 4:
                     print(f"\n{Color.cyan_brillante}------{Color.fin}Despacho En Proceso{Color.cyan_brillante}-----------{Color.fin}")
                     if bahia_camiones.is_empty():
