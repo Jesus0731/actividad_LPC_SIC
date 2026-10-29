@@ -38,38 +38,29 @@ class Queue:
     #funcion para printear cola
     def __str__(self):
         return str(self.queue)
+
+# Clase Color para imprimir mensajes con colores
+class Color:
+    rojo = '\033[31m'
+    verde = '\033[32m'
+    negrita = '\033[1m' # Resaltador
+    fin = '\033[0m'     # Debe colorcarse al final del texto que se quiere colorear
+    cyan_brillante = '\033[1;36m'
+
 ################# Algorimo a desarrollar abajo #################
-##Testeo de funciones
-'''print('Testeo cola:')
-cola = Queue() # Inicializamos y declaramos la cola
-cola.enqueue(1)
-cola.enqueue(2)
-cola.enqueue(3)
 
-print('Cola=',cola.queue)
-print('Se elimino el elemento', cola.dequeue(),'Cola actal',cola.queue)
-
-print('Testeo pila:')
-pila = Stack() # Inicializamos y declaramos la pila
-pila.push(1)
-pila.push(2)
-pila.push(3)
-
-print('Pila=',pila.stack)
-
-print('Se elimino el elemento', pila.pop(),'Pila actal',pila.stack)'''
 
 #funcion para mostrar el menu principal de opciones
 def menu_principal():
-    print("\n==================================================================================")
-    print("------------Bienvendio Al Sistema De Despacho Y Almacen De la Empresa -------------")
-    print("====================================================================================")
-    print("1. [PILA] Apilar caja (push) \n2. [PILA] Retirar caja de la cima (pop) \n3. [COLA] Llega camión a la fila (enqueue) ")
-    print("4. [COLA] Despachar primer camión (dequeue)\n5. Ver estado del almacén y camiones\n6. Salir del programa\n")
+    print(f"\n{Color.cyan_brillante}==================================================================================")
+    print(f"------------{Color.fin}Bienvendio Al Sistema De Despacho Y Almacen De la Empresa {Color.cyan_brillante}-------------")
+    print(f"===================================================================================={Color.fin}")
+    print("1. [PILA] Apilar caja  \n2. [PILA] Retirar caja de la cima  \n3. [COLA] Llega camión a la fila  ")
+    print("4. [COLA] Despachar primer camión \n5. Ver estado del almacén y camiones\n6. Salir del programa\n")
 
 #funcion para mostrar el estado del almacen (recibe una pila y una cola como parametro )
 def mostrar_estado(s: Stack , q: Queue):
-    print("\n=====Mostrando Estado Actual=======\n")
+    print(f"\n{Color.cyan_brillante}====={Color.fin}Mostrando Estado Actual{Color.cyan_brillante}======={Color.fin}")
     print(f"Almacen de carga: {s}")
     print(f"Bahia de camiones: {q}")
 
@@ -78,12 +69,14 @@ def menu():
     almacen = Stack() #creacion del almacen (pila)
     bahia_camiones = Queue() #creacion del bahia_de_camiones (cola)
     while(True): #bucle principal ejecucion indeterminada hasta que sea detenida por el usuario
-        #control_borrado inicializado en true es una variable que permite llevar el control de que mensajes seran eliminados de pantalla para
-        #garantizar una visualizacion mas efectiva de los mensajes mostrados en pantalla , los mensajes de las opciones del 1 al 4 seran eliminados 
-        #pues una vez ejecutado el proceso su mensaje , ya no tiene mayor relevancia
+                 #control_borrado inicializado en true es una variable que permite llevar el control de que mensajes seran eliminados de pantalla para
+                 #garantizar una visualizacion mas efectiva de los mensajes mostrados en pantalla , los mensajes de las opciones del 1 al 4 seran eliminados 
+                 #pues una vez ejecutado el proceso su mensaje , ya no tiene mayor relevancia
+
         control_borrado = True 
         menu_principal() #mostrar el menu principal 
         entrada = input("Por Favor, Ingrese una opcion: ") #capturamos la entrada (se guarda como string)
+
         if entrada.isdigit(): #se comprueba de que lo capturado sea realmente un digito numerico , esto ya que el menu trabaja con opciones que van
             #en rangos numericos , lo que facilita la verificacion de opciones fuera de 
             opcion = int(entrada)
@@ -91,33 +84,33 @@ def menu():
                 case 1:  # caso 1: almacenar una caja
                     identificador_alm = input("\nIngrese el identificador de la caja a almacenar: ")
                     almacen.push(identificador_alm)
-                    print(f"-> Caja [{identificador_alm}] apilada con exito. \n")
+                    print(f"{Color.verde}-> Caja [{identificador_alm}] apilada con exito.\n{Color.fin}")
                 case 2: #caso 2: retirando caja del almacen 
-                    print("\n-----Procesando Solicitud------")
+                    print(f"\n{Color.cyan_brillante}-----{Color.fin}Procesando Solicitud{Color.cyan_brillante}------{Color.fin}")
                     if almacen.is_empty():
-                        print("[!] Error: El almacén está vacío (no hay cajas que retirar.")
+                        print(f"{Color.rojo}[!] Error{Color.fin}: El almacén está vacío (no hay cajas que retirar).")
                     else:
-                        print(f"La caja {almacen.pop()} ha sido retirada con exito.")
+                        print(f"{Color.verde}La caja {almacen.pop()} ha sido retirada con exito.{Color.fin}")
                 case 3:
                     identificador_cam = input("\nIngrese el identificador del vehiculo que desea enviar a recepcion: ")
                     bahia_camiones.enqueue(identificador_cam)
-                    print(f"-> Camion [{identificador_cam}] formado en la fila. \n")
+                    print(f"{Color.verde}-> Camion [{identificador_cam}] formado en la fila. {Color.fin}\n")
                 case 4:
-                    print("\n------Despacho En Proceso-----------")
+                    print(f"\n{Color.cyan_brillante}------{Color.fin}Despacho En Proceso{Color.cyan_brillante}-----------{Color.fin}")
                     if bahia_camiones.is_empty():
-                        print("[!] Error: No hay camiones esperando turno.")
+                        print(f"{Color.rojo}[!] Error{Color.fin}: No hay camiones esperando turno.")
                     else:
-                        print(f"Camion {bahia_camiones.dequeue()} despachado con exito. ")
+                        print(f"{Color.verde}Camion {bahia_camiones.dequeue()} despachado con exito. {Color.fin}")
                 case 5:
                     mostrar_estado(almacen, bahia_camiones)
                     control_borrado = False   # el mensaje que informa sobre el estado del almacen y bahia permanecera en pantalla hasta la segunda consulta
                 case 6:
                     print("!Sistema finalizado, gracias por su tiempo!")
                     break
-                case _: print("Ingrese una opcion valida") #default se ingreso un numero fuera de rango   
+                case _: print(f"{Color.rojo}Ingrese una opcion valida{Color.fin}") #default se ingreso un numero fuera de rango   
         else:
-            print("Ingrese solo un valor numerico.")
-        time.sleep(2) # pausar el programa 1.5 antes de la siguiente iteracion (permite una visualizacion rapida sin sobrecargar la consola)
+            print(f"{Color.rojo}Ingrese solo un valor numerico.{Color.fin}")
+        time.sleep(2.25) # pausar el programa antes de la siguiente iteracion (permite una visualizacion rapida sin sobrecargar la consola)
         if control_borrado: #limpiamos pantalla si no se muestra el estado de los objetos (permite una visualizacion detallada del estado de los objetos)
             os.system('cls ' if os.name=='nt' else 'clear') #uso de la funcion system de os ( si el SO es Windows usa cls sino clear (linux))
 
