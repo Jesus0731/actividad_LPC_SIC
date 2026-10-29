@@ -1,4 +1,3 @@
-"# Proyecto SIC " 
 # Integrantes: 
 - Greilys Hernández
 - Jesús Herrada

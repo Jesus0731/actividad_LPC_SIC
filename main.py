@@ -49,6 +49,9 @@ class Color:
 
 ################# Algorimo a desarrollar abajo #################
 
+# Conjuntos para controlar la cantidad de ids en el programa
+id_almacen= set()   #IDs en la Pila
+id_camiones= set()  #IDs en la Cola
 
 #funcion para mostrar el menu principal de opciones
 def menu_principal():
@@ -83,34 +86,54 @@ def menu():
             match opcion:
                 case 1:  # caso 1: almacenar una caja
                     identificador_alm = input("\nIngrese el identificador de la caja a almacenar: ")
-                    almacen.push(identificador_alm)
-                    print(f"{Color.verde}-> Caja [{identificador_alm}] apilada con exito.\n{Color.fin}")
+                    if identificador_alm in id_almacen:
+                        print(f"{Color.rojo}[!] Error{Color.fin}: Una caja con esa ID ya existe. Ingrese una ID Valida\n")
+
+                    else:
+                        id_almacen.add(identificador_alm)
+                        almacen.push(identificador_alm)
+                        print(f"{Color.verde}-> Caja [{identificador_alm}] apilada con exito.\n{Color.fin}")
+
                 case 2: #caso 2: retirando caja del almacen 
                     print(f"\n{Color.cyan_brillante}-----{Color.fin}Procesando Solicitud{Color.cyan_brillante}------{Color.fin}")
                     if almacen.is_empty():
                         print(f"{Color.rojo}[!] Error{Color.fin}: El almacén está vacío (no hay cajas que retirar).")
+
                     else:
-                        print(f"{Color.verde}La caja {almacen.pop()} ha sido retirada con exito.{Color.fin}")
+                        victima= almacen.pop()      # elemento eliminado de la pila y su conjunto
+                        id_almacen.discard(victima)
+                        print(f"{Color.verde}La caja {victima} ha sido retirada con exito.{Color.fin}")
+
                 case 3:
                     identificador_cam = input("\nIngrese el identificador del vehiculo que desea enviar a recepcion: ")
-                    bahia_camiones.enqueue(identificador_cam)
-                    print(f"{Color.verde}-> Camion [{identificador_cam}] formado en la fila. {Color.fin}\n")
+                    if identificador_cam in id_camiones:
+                        print(f"{Color.rojo}[!] Error{Color.fin}: Una Camion con esa ID ya existe. Ingrese una ID Valida\n")
+                    else:
+                        id_camiones.add(identificador_cam)
+                        bahia_camiones.enqueue(identificador_cam)
+                        print(f"{Color.verde}-> Camion [{identificador_cam}] formado en la fila. {Color.fin}\n")
+
                 case 4:
                     print(f"\n{Color.cyan_brillante}------{Color.fin}Despacho En Proceso{Color.cyan_brillante}-----------{Color.fin}")
                     if bahia_camiones.is_empty():
                         print(f"{Color.rojo}[!] Error{Color.fin}: No hay camiones esperando turno.")
+
                     else:
-                        print(f"{Color.verde}Camion {bahia_camiones.dequeue()} despachado con exito. {Color.fin}")
+                        victima=bahia_camiones.dequeue()    # elemento eliminado de la cola y su conjunto
+                        id_camiones.discard(victima)
+                        print(f"{Color.verde}Camion {victima} despachado con exito. {Color.fin}")
+
                 case 5:
                     mostrar_estado(almacen, bahia_camiones)
                     control_borrado = False   # el mensaje que informa sobre el estado del almacen y bahia permanecera en pantalla hasta la segunda consulta
+                
                 case 6:
                     print("!Sistema finalizado, gracias por su tiempo!")
                     break
                 case _: print(f"{Color.rojo}Ingrese una opcion valida{Color.fin}") #default se ingreso un numero fuera de rango   
         else:
             print(f"{Color.rojo}Ingrese solo un valor numerico.{Color.fin}")
-        time.sleep(2.25) # pausar el programa antes de la siguiente iteracion (permite una visualizacion rapida sin sobrecargar la consola)
+        time.sleep(2) # pausar el programa antes de la siguiente iteracion (permite una visualizacion rapida sin sobrecargar la consola)
         if control_borrado: #limpiamos pantalla si no se muestra el estado de los objetos (permite una visualizacion detallada del estado de los objetos)
             os.system('cls ' if os.name=='nt' else 'clear') #uso de la funcion system de os ( si el SO es Windows usa cls sino clear (linux))
 
