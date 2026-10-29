@@ -70,7 +70,7 @@ python main.py
 ## Guía de Uso Paso a Paso 
 No necesitas saber programar para usar este sistema. Solo sigue estas indicaciones:
 
-# Paso 1: Abrir y ejecutar el programa y asegúrate de tener instalado Python en tu computadora.
+# Paso 1: Abrir y ejecutar el programa, asegurándote de tener instalado Python en tu computadora.
 
 ## Paso 2: Conociendo el Menú de Opciones
 
