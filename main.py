@@ -117,10 +117,10 @@ def menu():
                     identificador_alm = input("\nIngrese el identificador de la caja a almacenar: ")
 
                     if len(identificador_alm) > 20:
-                        print("[!] Error: El identificador no puede superar los 20 caracteres.")
+                        print(f"{Color.rojo}[!] Error{Color.fin}: El identificador no puede superar los 20 caracteres.")
 
                     elif almacen.existe(identificador_alm):
-                        print("[!] Error: Ya existe una caja con ese identificador.")
+                        print(f"{Color.rojo}[!] Error{Color.fin}: Ya existe una caja con ese identificador.")
 
                     else:
                         almacen.push(identificador_alm)
@@ -135,10 +135,10 @@ def menu():
                     identificador_cam = input("\nIngrese el identificador del vehiculo que desea enviar a recepcion: ")
 
                     if len(identificador_cam) > 20:
-                        print("[!] Error: El identificador no puede superar los 20 caracteres.")
+                        print(f"{Color.rojo}[!] Error{Color.fin}: El identificador no puede superar los 20 caracteres.")
 
                     elif bahia_camiones.existe(identificador_cam):
-                        print("[!] Error: Ya existe un camion con ese identificador.")
+                        print(f"{Color.rojo}[!] Error{Color.fin}: Ya existe un camion con ese identificador.")
 
                     else:
                         bahia_camiones.enqueue(identificador_cam)
