@@ -88,10 +88,18 @@ def menu():
             #en rangos numericos , lo que facilita la verificacion de opciones fuera de 
             opcion = int(entrada)
             match opcion:
-                case 1:  # caso 1: almacenar una caja
+                case 1:
                     identificador_alm = input("\nIngrese el identificador de la caja a almacenar: ")
-                    almacen.push(identificador_alm)
-                    print(f"-> Caja [{identificador_alm}] apilada con exito. \n")
+
+                    if len(identificador_alm) > 20:
+                        print("[!] Error: El identificador no puede superar los 20 caracteres.")
+
+                    elif identificador_alm in almacen.stack:
+                        print("[!] Error: Ya existe una caja con ese identificador.")
+
+                    else:
+                        almacen.push(identificador_alm)
+                        print(f"-> Caja [{identificador_alm}] apilada con exito. \n")
                 case 2: #caso 2: retirando caja del almacen 
                     print("\n-----Procesando Solicitud------")
                     if almacen.is_empty():
@@ -100,6 +108,14 @@ def menu():
                         print(f"La caja {almacen.pop()} ha sido retirada con exito.")
                 case 3:
                     identificador_cam = input("\nIngrese el identificador del vehiculo que desea enviar a recepcion: ")
+
+                    if len(identificador_cam) > 20:
+                        print("[!] Error: El identificador no puede superar los 20 caracteres.")
+
+                elif identificador_cam in bahia_camiones.queue:
+                    print("[!] Error: Ya existe un camion con ese identificador.")
+
+                else:
                     bahia_camiones.enqueue(identificador_cam)
                     print(f"-> Camion [{identificador_cam}] formado en la fila. \n")
                 case 4:
